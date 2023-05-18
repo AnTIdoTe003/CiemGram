@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { Poppins } from 'next/font/google'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import HomeLoader from '@/components/HomeLoader/HomeLoader'
 import { useEffect, useState } from 'react'
 const inter = Inter({ subsets: ['latin'] })
@@ -12,23 +12,14 @@ export default function Home() {
 
   })
 
-  const [loading, setLoading] = useState(false)
-  useEffect(()=>{
-    if(status === 'loading'){
-      setLoading(true)
-      setTimeout(()=>{
-        setLoading(false)
-      },2000)
-    }
-  },[status])
+ if(status === 'loading'){
+  return <HomeLoader></HomeLoader>
+ }
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${poppins.className}`}
     >
-      {
-         (loading)?<HomeLoader></HomeLoader>:""
-
-}
+       <button className="bg-red-100 w-[12rem] h-[5rem] px-4 rounded-md" onClick={()=>signOut()}>Signout</button>
     </main>
   )
 }
